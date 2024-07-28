@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Block</title>
+    <style>
+        /* CSS styles */
+        .question-block {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 10px;
+            border: none; /* Removing border */
+        }
+        
+        .question {
+            color: #666666;
+            margin-bottom: 20px; /* Increased margin between question and answers */
+            display: flex;
+            flex-direction: column; /* Align elements vertically */
+        }
+
+        .question-content {
+            max-width: 100%; /* Image won't stretch to full width */
+        }
+        
+        .question img {
+            margin-top: 10px; /* Top margin for image */
+            width: 30%; /* Image width 30% of parent element */
+            max-width: 100%; /* Image won't stretch to full width */
+        }
+        
+        .answers {
+            padding-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Aligning to the left vertically */
+        }
+        
+        .answer {
+            padding: 5px 0;
+            display: flex;
+            align-items: center; /* Align circle and text in center vertically */
+            width: 100%; /* Stretching answers to full width */
+            margin-bottom: 15px; /* Increased bottom margin for answers */
+        }
+
+        .answer img {
+            margin-top: 10px; /* Top margin for image */
+            width: 30%; /* Image width 30% of parent element */
+            max-width: 100%; /* Image won't stretch to full width */
+        }
+        
+        .answer:not(:first-child) {
+            border-top: 1px solid #cccccc; /* Gray line between answers, except the first one */
+        }
+        
+        .circle-selected {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #666666;
+            margin-right: 10px;
+            background-color: rgba(191, 255, 128, 0.5); /* Lime color with transparency */
+            border-color: #666666;
+        }
+        
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #666666;
+            margin-right: 10px;
+            background-color: rgba(191, 255, 128, 0.5); /* Lime color with transparency */
+            background-color: #ffffff; /* White if selected */
+            border-color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <!-- HTML block -->
+    {% for question in questions %}
+    <div class="question-block">
+        <!-- Question -->
+        <div class="question">
+            <span class="question-content">{{ question.question_text }}</span> <!-- Question text -->
+            {% if question.question_img %}
+            <img src="{{ question.question_img }}" alt="Question Image"> <!-- Image (optional) -->
+            {% endif %}
+        </div>
+        
+        <!-- Answers -->
+        <div class="answers">
+            {% for answer in question.answers %}
+            <div class="answer">
+                <span class="circle{{ '-selected' if answer[2] == 1 else '' }}"></span> <!-- Circle -->
+                {{ answer[0] }} <!-- Answer text -->
+                {% if answer[1] %} <!-- Check if answer has image -->
+                <img src="{{ answer[1] }}" alt="Answer Image"> <!-- Answer image -->
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>
